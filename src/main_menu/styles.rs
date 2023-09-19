@@ -11,7 +11,7 @@ pub const TITLE_STYLE: Style = {
     style.justify_content = JustifyContent::Center;
     style.align_content = AlignContent::Center;
     style.align_items = AlignItems::Center;
-    style.width = Val::Px(300.0);
+    style.width = Val::Px(500.0);
     style.height = Val::Px(120.0);
     style
 };

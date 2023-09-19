@@ -60,7 +60,7 @@ pub fn build_main_menu(
                         ..default()
                     },
                     ..default()
-                });
+                }.with_no_wrap());
                 // Image 2
                 parent.spawn(ImageBundle {
                     style: IMAGE_STYLE,
