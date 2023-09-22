@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 mod player;
+pub mod bomb;
 pub mod enemy;
 pub mod score;
 pub mod star;
@@ -10,10 +11,12 @@ use enemy::EnemyPlugin;
 use player::PlayerPlugin;
 use score::ScorePlugin;
 use star::StarPlugin;
+use bomb::BombPlugin;
 use systems::*;
 
 use crate::AppState;
 use crate::events::*;
+
 
 pub struct GamePlugin;
 
@@ -32,7 +35,8 @@ impl Plugin for GamePlugin{
             EnemyPlugin,
             PlayerPlugin,
             ScorePlugin,
-            StarPlugin
+            StarPlugin,
+            BombPlugin
         ))
 
         .add_systems(

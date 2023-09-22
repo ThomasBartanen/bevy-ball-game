@@ -1,10 +1,14 @@
-use crate::constants::*;
+use crate::{
+    constants::*, 
+    events::GameOver,
+    game::bomb::resources::BombCount,
+    game::enemy::components::*,
+    game::bomb::components::*,
+    game::star::components::*,
+    game::score::resources::*
+};
 //use crate::events::*;
 use super::components::*;
-use crate::game::enemy::components::*;
-use crate::game::star::components::*;
-use crate::game::score::resources::*;
-use crate::events::GameOver;
 
 use bevy::{
     prelude::*,
@@ -101,6 +105,39 @@ pub fn confine_player_movment(
             translation.y = y_max;
         }
         player_transform.translation = translation;
+    }
+}
+
+pub fn player_drop_bomb(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    keyboard_input: Res<Input<KeyCode>>,
+    player_query: Query<&Transform, With<Player>>,
+    mut bomb_counter: ResMut<BombCount>,
+    score: Res<Score>
+) {    
+    if let Ok(player_transform) = player_query.get_single() {
+        if score.value < BOMB_COST {
+            return;
+        }
+        if keyboard_input.pressed(KeyCode::F){
+            let mut bomb_sprite = SpriteBundle {
+                transform: Transform::from_translation(player_transform.translation),
+                texture: asset_server.load("sprites/ball_blue_large.png"),
+                ..default()
+            };
+
+            bomb_sprite.transform.scale *= 0.5;
+
+            commands.spawn(
+                (
+                    bomb_sprite,
+                    Bomb { det_time: BOMB_DET_TIME }
+                )
+            );
+
+            bomb_counter.count += 1;
+        }
     }
 }
 

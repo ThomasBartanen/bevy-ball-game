@@ -30,12 +30,13 @@ impl Plugin for PlayerPlugin {
         .add_systems(
             Update, 
             (                
-            player_movement
-                .in_set(MovementSystemSet),
-            confine_player_movment
-                .in_set(ConfinementSystemSet),
-            enemy_hit_player,
-            player_hit_star,
+                player_movement
+                    .in_set(MovementSystemSet),
+                confine_player_movment
+                    .in_set(ConfinementSystemSet),
+                enemy_hit_player,
+                player_hit_star,
+                player_drop_bomb
             )
             .run_if(in_state(AppState::Game))
             .run_if(in_state(SimulationState::Running))
