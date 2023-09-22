@@ -9,7 +9,7 @@ pub struct EnemySpawnTimer {
 impl Default for EnemySpawnTimer {
     fn default() -> EnemySpawnTimer {
         EnemySpawnTimer { 
-            timer: Timer::from_seconds(STAR_SPAWN_TIME, TimerMode::Repeating) 
+            timer: Timer::from_seconds(ENEMY_SPAWN_TIME, TimerMode::Repeating) 
         }
     }
 }
