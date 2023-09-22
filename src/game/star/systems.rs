@@ -1,4 +1,5 @@
 use crate::constants::*;
+use crate::extension_functions::get_random_screen_point;
 use super::components::*;
 use super::resources::*;
 
@@ -6,7 +7,7 @@ use bevy::{
     prelude::*,
     window::PrimaryWindow
 };
-use rand::prelude::*;
+//use rand::prelude::*;
 
 pub fn spawn_stars(
     mut commands: Commands,
@@ -16,12 +17,10 @@ pub fn spawn_stars(
     let window: &Window = window_query.get_single().unwrap();
 
     for _ in 0..NUMBER_OF_STARS {
-        let random_x: f32 = random::<f32>() * window.width();
-        let random_y: f32 = random::<f32>() * window.height();
 
         commands.spawn((
             SpriteBundle{
-                transform: Transform::from_xyz(random_x, random_y, 0.0),
+                transform: Transform::from_translation(get_random_screen_point(window).into()),
                 texture: asset_server.load("sprites/star.png"),
                 ..default()
             },
@@ -54,12 +53,10 @@ pub fn spawn_stars_over_time(
 ) {
     if star_spawn_timer.timer.finished() {
         let window: &Window = window_query.get_single().unwrap();
-        let random_x: f32 = random::<f32>() * window.width();
-        let random_y: f32 = random::<f32>() * window.height();
 
         commands.spawn((
             SpriteBundle{
-                transform: Transform::from_xyz(random_x, random_y, 0.0),
+                transform: Transform::from_translation(get_random_screen_point(window).into()),
                 texture: asset_server.load("sprites/star.png"),
                 ..default()
             },

@@ -3,10 +3,12 @@ pub mod events;
 mod systems;
 mod game;
 mod main_menu;
+pub mod extension_functions;
 
 use game::GamePlugin;
 use main_menu::MainMenuPlugin;
 use systems::*;
+
 
 use bevy::{
     prelude::*,

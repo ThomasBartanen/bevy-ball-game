@@ -67,12 +67,6 @@ pub fn player_movement(
 
         direction = direction.normalize_or_zero();
 
-        /* Alternative, og from video. Above from comments
-        if direction.length() > 0.0 {
-            direction = direction.normalize();
-        }
-        */
-
         transform.translation += direction * PLAYER_SPEED * time.delta_seconds();
     }
 }
