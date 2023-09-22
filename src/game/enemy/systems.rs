@@ -1,4 +1,7 @@
-use crate::constants::*;
+use crate::{
+    constants::*,
+    extension_functions::*
+};
 use super::components::*;
 use super::resources::*;
 
@@ -16,26 +19,22 @@ pub fn spawn_enemies(
 ) {
     let window: &Window = window_query.get_single().unwrap();
 
-    for _ in 0..NUMBER_OF_ENEMIES {        
-        //let mut rng = rand::thread_rng();
-        //let random_x: f32 = rng.gen::<f32>() * window.width();
-        //let random_y: f32 = rng.gen::<f32>() * window.height();
-
-        let random_x: f32 = random::<f32>() * window.width();
-        let random_y: f32 = random::<f32>() * window.height();
+    for _ in 0..NUMBER_OF_ENEMIES {
 
         let /*mut*/ enemy_sprite = SpriteBundle {
-            transform: Transform::from_xyz(random_x, random_y, 0.0),
+            transform: Transform::from_translation(get_random_screen_point(window).into()),
             texture: asset_server.load("sprites/ball_red_large.png"),
             ..default()
         };
+
+        let random_point: Vec3 = get_random_screen_point(window);
 
         //enemy_sprite.transform.scale *= 0.5;
 
         commands.spawn((
             enemy_sprite,
             Enemy {
-                direction: Vec2::new(random::<f32>(), random::<f32>()).normalize(),
+                direction: Vec2::new(random_point.x, random_point.y).normalize(),
             },
         ));
     }
@@ -154,15 +153,16 @@ pub fn spawn_enemies_over_time(
     mut commands: Commands,
     window_query: Query<&Window, With<PrimaryWindow>>,
     asset_server: Res<AssetServer>,
-    enemy_spawn_timer: Res<EnemySpawnTimer>
+    enemy_spawn_timer: Res<EnemySpawnTimer>,
+    mut enemy_counter: ResMut<EnemyCount>
 ) {
+    if enemy_counter.count >= MAX_ENEMIES { return; }
     if enemy_spawn_timer.timer.finished() {
         let window: &Window = window_query.get_single().unwrap();
-        let random_x: f32 = random::<f32>() * window.width();
-        let random_y: f32 = random::<f32>() * window.height();
+        let random_point: Vec3 = get_random_screen_point(window);
 
         let /*mut*/ enemy_sprite = SpriteBundle {
-            transform: Transform::from_xyz(random_x, random_y, 0.0),
+            transform: Transform::from_translation(random_point.into()),
             texture: asset_server.load("sprites/ball_red_large.png"),
             ..default()
         };
@@ -172,8 +172,10 @@ pub fn spawn_enemies_over_time(
         commands.spawn((
             enemy_sprite,
             Enemy {
-                direction: Vec2::new(random::<f32>(), random::<f32>()).normalize(),
+                direction: Vec2::new(random_point.x, random_point.y).normalize(),
             },
         ));
+
+        enemy_counter.count += 1;
     }
 }

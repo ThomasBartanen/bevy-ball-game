@@ -18,6 +18,8 @@ impl Plugin for EnemyPlugin {
         app
         .init_resource::<EnemySpawnTimer>()
 
+        .init_resource::<EnemyCount>()
+
         .add_systems(
             OnEnter(AppState::Game),
             (

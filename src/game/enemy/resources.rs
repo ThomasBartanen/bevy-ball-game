@@ -13,3 +13,14 @@ impl Default for EnemySpawnTimer {
         }
     }
 }
+
+#[derive(Resource)]
+pub struct EnemyCount {
+    pub count: usize
+}
+
+impl Default for EnemyCount {
+    fn default() -> EnemyCount {
+        EnemyCount { count: 0 }
+    }
+}
