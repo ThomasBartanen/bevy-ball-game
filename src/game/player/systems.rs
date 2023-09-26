@@ -1,7 +1,7 @@
 use crate::{
     constants::*, 
     events::GameOver,
-    game::bomb::resources::BombCount,
+    game::bomb::resources::*,
     game::enemy::components::*,
     game::bomb::components::*,
     game::star::components::*,
@@ -107,21 +107,22 @@ pub fn player_drop_bomb(
     asset_server: Res<AssetServer>,
     keyboard_input: Res<Input<KeyCode>>,
     player_query: Query<&Transform, With<Player>>,
-    mut bomb_counter: ResMut<BombCount>,
-    score: Res<Score>
+    mut placed_bomb_counter: ResMut<PlacedBombCount>,
+    mut held_bomb_counter: ResMut<HeldBombCount>,
+    mut cooldown: ResMut<BombCooldownTimer>
 ) {    
     if let Ok(player_transform) = player_query.get_single() {
-        if score.value < BOMB_COST {
+        if held_bomb_counter.count <= 0 || !cooldown.timer.finished() {
             return;
         }
         if keyboard_input.pressed(KeyCode::F){
-            let mut bomb_sprite = SpriteBundle {
+            let /* mut */ bomb_sprite = SpriteBundle {
                 transform: Transform::from_translation(player_transform.translation),
-                texture: asset_server.load("sprites/ball_blue_large.png"),
+                texture: asset_server.load("sprites/bomb_001.png"),
                 ..default()
             };
 
-            bomb_sprite.transform.scale *= 0.5;
+            //bomb_sprite.transform.scale *= 0.5;
 
             commands.spawn(
                 (
@@ -129,8 +130,9 @@ pub fn player_drop_bomb(
                     Bomb { det_time: BOMB_DET_TIME }
                 )
             );
-
-            bomb_counter.count += 1;
+            cooldown.timer = Timer::from_seconds(BOMB_COOLDOWN_TIME, TimerMode::Once);
+            held_bomb_counter.count -= 1;
+            placed_bomb_counter.count += 1;
         }
     }
 }
