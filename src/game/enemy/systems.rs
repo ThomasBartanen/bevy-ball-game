@@ -10,6 +10,8 @@ use bevy::{
     window::PrimaryWindow,
     audio::{ Volume, VolumeLevel }
 };
+use bevy_xpbd_2d::prelude::Collider;
+use bevy_xpbd_2d::prelude::Sensor;
 use rand::prelude::*;
 
 pub fn spawn_enemies_at_start(
@@ -36,6 +38,8 @@ pub fn spawn_enemies_at_start(
             Enemy {
                 direction: Vec2::new(random_point.x, random_point.y).normalize(),
             },
+            Collider::ball(ENEMY_SIZE),
+            Sensor
         ));
     }
 }
@@ -174,6 +178,8 @@ pub fn spawn_enemies_over_time(
             Enemy {
                 direction: Vec2::new(random_point.x, random_point.y).normalize(),
             },
+            Collider::ball(ENEMY_SIZE),
+            Sensor
         ));
 
         enemy_counter.count += 1;

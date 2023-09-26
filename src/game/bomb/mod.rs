@@ -23,6 +23,7 @@ impl Plugin for BombPlugin {
             (
                 tick_bomb_timers,
                 detonate_bomb,
+                handle_bomb_collisions,
                 tick_explosion_timers,
                 remove_explosion
             )

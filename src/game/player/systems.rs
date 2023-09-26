@@ -16,6 +16,8 @@ use bevy::{
     audio::{ Volume, VolumeLevel }
 };
 
+use bevy_xpbd_2d::prelude::Collider;
+
 pub fn spawn_player(
     mut commands: Commands,
     window_query: Query<&Window, With<PrimaryWindow>>,
@@ -126,8 +128,9 @@ pub fn player_drop_bomb(
             commands.spawn(
                 (
                     bomb_sprite,
-                    Bomb { det_time: BOMB_DET_TIME }
-                )
+                    Bomb { det_time: BOMB_DET_TIME },
+                    Collider::ball(PLAYER_SIZE)
+                ),                
             );
 
             bomb_counter.count += 1;

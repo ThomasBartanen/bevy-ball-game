@@ -1,5 +1,6 @@
 use crate::constants::BOMB_DET_RADIUS;
 use crate::constants::EXPLOSION_VISIBILITY_TIME;
+use crate::game::enemy::components::Enemy;
 
 use super::components::*;
 use super::resources::*;
@@ -7,6 +8,15 @@ use super::resources::*;
 use bevy::{
     prelude::*,
     //audio::{ Volume, VolumeLevel }
+};
+//use bevy_xpbd_2d::prelude::Position;
+use bevy_xpbd_2d::prelude::{
+    Collider,
+    //RigidBody,
+    Sensor,
+    //SpatialQuery,
+    //SpatialQueryFilter,
+    Collision
 };
 
 pub fn tick_bomb_timers(
@@ -19,6 +29,8 @@ pub fn tick_bomb_timers(
 }
 
 pub fn detonate_bomb(
+    //spatial_query: SpatialQuery,
+    //enemy_query: Query<&Enemy>,
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     mut bomb_counter: ResMut<BombCount>,
@@ -42,9 +54,44 @@ pub fn detonate_bomb(
                 Explosion {
                     visible_time: EXPLOSION_VISIBILITY_TIME
                 },
-            ));            
+                Collider::ball(BOMB_DET_RADIUS),
+                Sensor
+            ));
 
             bomb_counter.count -= 1;
+            /*
+            let intersections = spatial_query.shape_intersections(
+                &Collider::ball(BOMB_DET_RADIUS),                // Shape
+                bomb_transform.translation.truncate(),  // Shape position
+                f32::default(),                         // Shape rotation
+                SpatialQueryFilter::default(),            // Query filter
+            );
+        
+            for entity in intersections.iter() {
+                println!("Entity: {:?}", entity);
+                if enemy_query.contains(*entity) {
+                    commands.entity(*entity).despawn();
+                }
+            }
+            */
+        }
+    }
+}
+
+pub fn handle_bomb_collisions(
+    mut commands: Commands,
+    enemy_query: Query<&Enemy>,
+    explosion_query: Query<&Explosion>,
+    mut collision_event_reader: EventReader<Collision>
+) {
+    for Collision(contact) in collision_event_reader.iter() {
+        //println!("{:?} and {:?} are colliding", contact.entity1, contact.entity2);
+        if (enemy_query.contains(contact.entity1)) && (explosion_query.contains(contact.entity2)) {
+            commands.entity(contact.entity1).despawn();
+        }
+        
+        if (enemy_query.contains(contact.entity2)) && (explosion_query.contains(contact.entity1)) {
+            commands.entity(contact.entity2).despawn();
         }
     }
 }

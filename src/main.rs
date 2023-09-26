@@ -5,6 +5,7 @@ mod game;
 mod main_menu;
 pub mod extension_functions;
 
+use bevy_xpbd_2d::prelude::PhysicsPlugins;
 use game::GamePlugin;
 use main_menu::MainMenuPlugin;
 use systems::*;
@@ -17,14 +18,17 @@ use bevy::{
 
 fn main() {
     App::new()
-    .add_plugins(DefaultPlugins.set(WindowPlugin {
-        primary_window: Some(Window {
-        resizable: false,
-        mode: WindowMode::Windowed,
+    .add_plugins((
+        DefaultPlugins.set(WindowPlugin {
+            primary_window: Some(Window {
+                resizable: false,
+                mode: WindowMode::Windowed,
+                ..default()
+            }),
         ..default()
         }),
-        ..default()
-    }))
+        PhysicsPlugins::default()
+    ))
 
     .add_state::<AppState>()
 
