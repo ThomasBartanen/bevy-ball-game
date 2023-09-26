@@ -18,6 +18,8 @@ use systems::*;
 use crate::AppState;
 use crate::events::*;
 
+use self::currency::CurrencyPlugin;
+
 
 pub struct GamePlugin;
 
@@ -34,6 +36,7 @@ impl Plugin for GamePlugin{
 
         .add_plugins((
             EnemyPlugin,
+            CurrencyPlugin,
             PlayerPlugin,
             ScorePlugin,
             StarPlugin,
