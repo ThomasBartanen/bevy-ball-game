@@ -15,7 +15,6 @@ pub fn tick_bomb_timers(
 ) {
     for mut bomb in &mut bomb_query {
         bomb.det_time -= time.delta().as_secs_f32();
-        //println!("Bomb timer {}", bomb.det_time);
     }
 }
 
@@ -27,14 +26,14 @@ pub fn detonate_bomb(
 ) {
     for (bomb_entity, bomb_transform, bomb) in bomb_query.iter() {
         if bomb.det_time <= 0.0 {
-            println!("Detonating Bomb");
-            commands.entity(bomb_entity).despawn();
 
             let mut explosion_sprite = SpriteBundle {
                 transform: Transform::from_translation(bomb_transform.translation),
                 texture: asset_server.load("sprites/ball_blue_large.png"),
                 ..default()
             };
+
+            commands.entity(bomb_entity).despawn();
 
             explosion_sprite.transform.scale *= BOMB_DET_RADIUS;
 
@@ -56,7 +55,6 @@ pub fn tick_explosion_timers(
 ) {
     for mut explosion in &mut explosion_query {
         explosion.visible_time -= time.delta().as_secs_f32();
-        //println!("Bomb timer {}", explosion.visible_time);
     }
 }
 
@@ -77,11 +75,9 @@ pub fn despawn_bombs(
     explosion_query: Query<Entity, With<Explosion>>
 ) {
     for bomb_entity in bomb_query.iter() {
-        println!("Despawning Bomb");
         commands.entity(bomb_entity).despawn();
     }
     for explosion_entity in explosion_query.iter() {
-        println!("Despawning Explosions");
         commands.entity(explosion_entity).despawn();
     }
 }
