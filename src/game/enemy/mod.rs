@@ -23,7 +23,7 @@ impl Plugin for EnemyPlugin {
         .add_systems(
             OnEnter(AppState::Game),
             (
-                spawn_enemies,
+                spawn_enemies_at_start,
             ))
 
         .add_systems(

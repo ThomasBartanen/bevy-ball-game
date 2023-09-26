@@ -12,7 +12,7 @@ use bevy::{
 };
 use rand::prelude::*;
 
-pub fn spawn_enemies(
+pub fn spawn_enemies_at_start(
     mut commands: Commands,
     window_query: Query<&Window, With<PrimaryWindow>>,
     asset_server: Res<AssetServer>,
