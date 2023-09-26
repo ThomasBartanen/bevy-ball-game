@@ -16,7 +16,9 @@ pub struct BombPlugin;
 impl Plugin for BombPlugin {
     fn build(&self, app: &mut App) {
         app
-        .init_resource::<BombCount>()
+        .init_resource::<PlacedBombCount>()
+        .init_resource::<HeldBombCount>()
+        .init_resource::<BombCooldownTimer>()
 
         .add_systems(
             Update, 
@@ -24,6 +26,8 @@ impl Plugin for BombPlugin {
                 tick_bomb_timers,
                 detonate_bomb,
                 tick_explosion_timers,
+                tick_cooldown_timer,
+                enemy_hit_explosion,
                 remove_explosion
             )
             .run_if(in_state(AppState::Game))
