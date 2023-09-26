@@ -2,6 +2,7 @@ use bevy::prelude::*;
 
 mod player;
 pub mod bomb;
+pub mod currency;
 pub mod enemy;
 pub mod score;
 pub mod star;
