@@ -20,6 +20,8 @@ pub fn remove_currency(
 ) {
     commands.remove_resource::<HeldCurrency>();
 }
+
+pub fn purchase_bomb(
     keyboard_input: Res<Input<KeyCode>>,
     mut held_currency: ResMut<HeldCurrency>,
     mut held_bomb_counter: ResMut<HeldBombCount>

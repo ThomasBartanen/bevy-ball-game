@@ -23,7 +23,7 @@ impl Plugin for CurrencyPlugin {
         .add_systems(
             Update, 
             (
-                replenish_bomb_count
+                purchase_bomb,
                 update_currency
             )
             .run_if(in_state(AppState::Game))
