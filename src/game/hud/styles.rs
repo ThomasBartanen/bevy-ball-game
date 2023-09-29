@@ -23,7 +23,19 @@ pub const HUD_STYLE: Style = {
     style.column_gap = Val::Px(20.0);
     style
 };
-
+/*
+pub const IMAGE_STYLE: Style = {
+    let mut style: Style = Style::DEFAULT;
+    style.width = Val::Px(64.0);
+    style.height = Val::Px(64.0);
+    style.margin = UiRect::new(
+        Val::Px(8.0), 
+        Val::Px(8.0), 
+        Val::Px(8.0), 
+        Val::Px(8.0));
+    style
+};
+*/
 pub fn get_data_text_style(
     asset_server: &Res<AssetServer>
 ) -> TextStyle {

@@ -26,11 +26,12 @@ impl Plugin for HUDPlugin {
         )
 
         .add_systems(
-            Update, 
+            Update,
             (
                 update_score,
                 update_currency,
-                //update_kill_count
+                update_kill_count,
+                update_bombs
         )
         .run_if(in_state(AppState::Game))
         .run_if(in_state(SimulationState::Running))

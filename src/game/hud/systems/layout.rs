@@ -40,7 +40,8 @@ pub fn build_hud(
             parent.spawn(NodeBundle {
                 style: DATA_STYLE,
                 ..default()
-            }).with_children(|parent: &mut ChildBuilder| {
+            })
+            .with_children(|parent: &mut ChildBuilder| {
                 // Score
                 parent.spawn((TextBundle {
                     text: Text{
@@ -90,6 +91,23 @@ pub fn build_hud(
                 }
                 .with_no_wrap(),
                     KillText { }
+                ));
+                // Bomb Count
+                parent.spawn((TextBundle {
+                    text: Text{
+                        sections: vec![
+                            TextSection::new(
+                                "Bombs: ",
+                                get_data_text_style(&asset_server)
+                            )
+                        ],
+                        alignment: TextAlignment::Center,
+                        ..default()
+                    },
+                    ..default()
+                }
+                .with_no_wrap(),
+                    BombCount { }
                 ));
             });
 

@@ -1,9 +1,9 @@
 use bevy::prelude::*;
 
 use crate::game::{
-    hud::components::{ScoreText, CurrencyText},
-    score::resources::Score,
-    currency::resources::HeldCurrency
+    hud::components::{ScoreText, CurrencyText, BombCount, KillText},
+    score::resources::{Score, Kills},
+    currency::resources::HeldCurrency, bomb::resources::HeldBombCount
 };
 
 pub fn update_score(
@@ -23,13 +23,21 @@ pub fn update_currency(
         text.sections[0].value = "Currency: ".to_owned() + held_currency.amount.to_string().as_str();
     }
 }
-/*
+
 pub fn update_kill_count(
     mut kill_query: Query<&mut Text, With<KillText>>,
     kills: Res<Kills>
 ) {
     for mut text in &mut kill_query {
-        text.sections[0].value = "Kills: ".to_owned() + kills.amount.to_string().as_str();
+        text.sections[0].value = "Kills: ".to_owned() + kills.value.to_string().as_str();
     }
 }
-*/
+
+pub fn update_bombs(
+    mut bomb_query: Query<&mut Text, With<BombCount>>,
+    held_bombs: Res<HeldBombCount>
+) {
+    for mut text in &mut bomb_query {
+        text.sections[0].value = "Bombs: ".to_owned() + held_bombs.count.to_string().as_str();
+    }
+}

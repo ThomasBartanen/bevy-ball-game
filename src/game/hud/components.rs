@@ -11,3 +11,6 @@ pub struct CurrencyText {}
 
 #[derive(Component)]
 pub struct KillText {}
+
+#[derive(Component)]
+pub struct BombCount {}
