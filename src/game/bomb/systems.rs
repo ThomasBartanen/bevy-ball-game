@@ -37,16 +37,26 @@ pub fn detonate_bomb(
                 texture: asset_server.load("sprites/explosion_001.png"),
                 ..default()
             };
+            let mut scorch_sprite = SpriteBundle {
+                transform: Transform::from_translation(bomb_transform.translation),
+                texture: asset_server.load("sprites/scorch_mark_003.png"),
+                ..default()
+            };
 
             commands.entity(bomb_entity).despawn();
 
             explosion_sprite.transform.scale *= 5.0;
-
             commands.spawn((
                 explosion_sprite,
                 Explosion {
                     visible_time: EXPLOSION_VISIBILITY_TIME
                 },
+            ));
+
+            scorch_sprite.transform.scale *= 2.5;
+            commands.spawn((
+                scorch_sprite,
+                ScorchMark { },
             ));
 
             bomb_counter.count -= 1;
@@ -83,6 +93,7 @@ pub fn remove_explosion(
 
 pub fn enemy_hit_explosion(
     mut commands: Commands,
+    asset_server: Res<AssetServer>,
     mut enemy_killed_event: EventWriter<EnemyKilled>,
     explosion_query: Query<&Transform, With<Explosion>>,
     enemy_query: Query<(Entity, &Transform), With<Enemy>>
@@ -98,7 +109,16 @@ pub fn enemy_hit_explosion(
 
             if distance < enemy_radius + explosion_radius {
                 enemy_killed_event.send(EnemyKilled {  });
+
                 commands.entity(enemy_entity).despawn();
+                commands.spawn((
+                    SpriteBundle {
+                        transform: Transform::from_translation(enemy_transform.translation + Vec3 { x: 0.0, y: 0.0, z: -0.1 }),
+                        texture: asset_server.load("sprites/blood_pool_002.png"),
+                        ..default()
+                    },
+                    BloodPool { },
+                ));
             }
         }
     }
@@ -107,13 +127,21 @@ pub fn enemy_hit_explosion(
 pub fn despawn_bombs(
     mut commands: Commands,
     bomb_query: Query<Entity, With<Bomb>>,
-    explosion_query: Query<Entity, With<Explosion>>
+    explosion_query: Query<Entity, With<Explosion>>,
+    blood_query: Query<Entity, With<BloodPool>>,
+    scorch_query: Query<Entity, With<ScorchMark>>
 ) {
     for bomb_entity in bomb_query.iter() {
         commands.entity(bomb_entity).despawn();
     }
     for explosion_entity in explosion_query.iter() {
         commands.entity(explosion_entity).despawn();
+    }
+    for blood_entity in blood_query.iter() {
+        commands.entity(blood_entity).despawn();
+    }
+    for scorch_entity in scorch_query.iter() {
+        commands.entity(scorch_entity).despawn();
     }
 }
 

@@ -10,4 +10,8 @@ pub struct Explosion {
     pub visible_time: f32
 }
 
+#[derive(Component)]
+pub struct BloodPool { }
 
+#[derive(Component)]
+pub struct ScorchMark { }
