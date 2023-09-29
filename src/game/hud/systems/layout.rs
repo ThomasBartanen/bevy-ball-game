@@ -55,7 +55,8 @@ pub fn build_hud(
                         ..default()
                     },
                     ..default()
-                },                                       
+                }                
+                .with_no_wrap(),                         
                     ScoreText { }
                 ));
                 // Currency
