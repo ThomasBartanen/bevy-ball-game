@@ -111,55 +111,6 @@ pub fn build_hud(
                     BombCount { }
                 ));
             });
-
-            // === Play ===
-            /*
-            parent.spawn((
-                ButtonBundle {
-                    style: BUTTON_STYLE,
-                    background_color: NORMAL_BUTTON_COLOR.into(),
-                    ..default()
-                },
-                PlayButton {},
-            )).with_children(|parent: &mut ChildBuilder| {
-                parent.spawn(TextBundle {
-                    text: Text{
-                        sections: vec![TextSection::new(
-                            "Play",
-                            get_button_text_style(&asset_server)
-                        )],
-                        alignment: TextAlignment::Center,
-                        ..default()
-                    },
-                    ..default()
-                });
-            });
-            */
-            // === Quit ===
-            /*
-            parent.spawn((
-                ButtonBundle {
-                    style: BUTTON_STYLE,
-                    background_color: NORMAL_BUTTON_COLOR.into(),
-                    ..default()
-                },
-                QuitButton {},
-            )).with_children(|parent: &mut ChildBuilder| {
-                parent.spawn(TextBundle {
-                    text: Text{
-                        sections: vec![
-                            TextSection::new(
-                                "Quit",
-                                get_button_text_style(&asset_server)
-                            )
-                        ],
-                        alignment: TextAlignment::Center,
-                        ..default()
-                    },
-                    ..default()
-                });
-            });
-            */
         })
 
         .id();
