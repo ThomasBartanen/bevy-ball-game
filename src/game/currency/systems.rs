@@ -10,7 +10,7 @@ pub fn replenish_bomb_count(
     mut held_currency: ResMut<HeldCurrency>,
     mut held_bomb_counter: ResMut<HeldBombCount>
 ) {
-    if keyboard_input.pressed(KeyCode::Q) {
+    if keyboard_input.just_pressed(KeyCode::Q) {
         if held_currency.amount >= BOMB_COST {
             println!("Purchased Bomb. {} currency remaining", held_currency.amount);
             held_bomb_counter.count += 1;
