@@ -7,7 +7,9 @@ pub mod enemy;
 pub mod score;
 pub mod star;
 pub mod systems;
+mod hud;
 
+use hud::HUDPlugin;
 use enemy::EnemyPlugin;
 use player::PlayerPlugin;
 use score::ScorePlugin;
@@ -35,6 +37,7 @@ impl Plugin for GamePlugin{
             pause_simulation)
 
         .add_plugins((
+            HUDPlugin,
             EnemyPlugin,
             CurrencyPlugin,
             PlayerPlugin,
