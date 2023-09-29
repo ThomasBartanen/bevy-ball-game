@@ -143,7 +143,8 @@ pub fn enemy_hit_player(
     mut player_query: Query<(Entity, &Transform), With<Player>>,
     enemy_query: Query<&Transform, With<Enemy>>,
     asset_server: Res<AssetServer>,
-    score: Res<Score>
+    score: Res<Score>,
+    kills: Res<Kills>
 ) {
     let playback_settings: PlaybackSettings = PlaybackSettings {
         volume: Volume::Relative(VolumeLevel::new(0.1)),
@@ -170,7 +171,7 @@ pub fn enemy_hit_player(
                 });
 
                 commands.entity(player_entity).despawn();
-                game_over_event.send(GameOver { score: score.value });
+                game_over_event.send(GameOver { score: score.value, kills: kills.value });
             }
         }
     }

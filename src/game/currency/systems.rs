@@ -1,6 +1,10 @@
 use bevy::prelude::*;
 
-use crate::constants::BOMB_COST;
+use crate::constants::{
+    BOMB_COST,
+    CURRENCY_PER_KILL
+};
+use crate::events::EnemyKilled;
 use crate::game::bomb::resources::HeldBombCount;
 
 use super::resources::HeldCurrency;
@@ -29,5 +33,14 @@ pub fn remove_currency(
         else {
             println!("Not enough cash to buy bomb. Only {} held, and {} required", held_currency.amount, BOMB_COST);
         }
+    }
+}
+
+pub fn update_currency(
+    mut currency: ResMut<HeldCurrency>,
+    mut enemy_killed_event: EventReader<EnemyKilled>
+){    
+    for _event in enemy_killed_event.iter() {
+        currency.amount += CURRENCY_PER_KILL;
     }
 }

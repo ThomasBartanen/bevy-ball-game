@@ -1,11 +1,10 @@
 use crate::constants::{
-    ENEMY_KILL_SCORE,
     EXPLOSION_RADIUS,
     ENEMY_SIZE,
     EXPLOSION_VISIBILITY_TIME
 };
+use crate::events::EnemyKilled;
 use crate::game::enemy::components::Enemy;
-use crate::game::score::resources::Score;
 
 use super::components::*;
 use super::resources::*;
@@ -84,9 +83,9 @@ pub fn remove_explosion(
 
 pub fn enemy_hit_explosion(
     mut commands: Commands,
+    mut enemy_killed_event: EventWriter<EnemyKilled>,
     explosion_query: Query<&Transform, With<Explosion>>,
-    enemy_query: Query<(Entity, &Transform), With<Enemy>>,
-    mut score: ResMut<Score>
+    enemy_query: Query<(Entity, &Transform), With<Enemy>>
 ) {
     for exp_transform in explosion_query.iter() {
         for (enemy_entity, enemy_transform) in enemy_query.iter() {
@@ -97,9 +96,8 @@ pub fn enemy_hit_explosion(
             let enemy_radius: f32 = ENEMY_SIZE / 2.0;
             let explosion_radius: f32 = (EXPLOSION_RADIUS * 5.0) / 2.0;
 
-            if distance < enemy_radius + explosion_radius {                
-                score.value += ENEMY_KILL_SCORE;
-
+            if distance < enemy_radius + explosion_radius {
+                enemy_killed_event.send(EnemyKilled {  });
                 commands.entity(enemy_entity).despawn();
             }
         }
@@ -117,6 +115,9 @@ pub fn despawn_bombs(
     for explosion_entity in explosion_query.iter() {
         commands.entity(explosion_entity).despawn();
     }
+}
+
+
 pub fn insert_bombs(
     mut commands: Commands
 ) {

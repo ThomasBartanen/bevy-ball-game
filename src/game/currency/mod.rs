@@ -24,6 +24,7 @@ impl Plugin for CurrencyPlugin {
             Update, 
             (
                 replenish_bomb_count
+                update_currency
             )
             .run_if(in_state(AppState::Game))
             .run_if(in_state(SimulationState::Running))

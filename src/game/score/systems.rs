@@ -1,4 +1,4 @@
-use crate::events::*;
+use crate::{events::*, constants::ENEMY_KILL_SCORE};
 use super::resources::*;
 
 use bevy::prelude::*;
@@ -6,20 +6,32 @@ use bevy::prelude::*;
 pub fn insert_score(
     mut commands: Commands
 ) {
-    commands.insert_resource(Score::default())
+    commands.insert_resource(Score::default());
+    commands.insert_resource(Kills::default());
 }
 
 pub fn remove_score(
     mut commands: Commands
 ) {
-    commands.remove_resource::<Score>();
+    commands.remove_resource::<Score>();    
+    commands.remove_resource::<Kills>();
 }
 
 pub fn update_score(
-    score: Res<Score>
-){
-    if score.is_changed(){
-        println!("Score: {}", score.value.to_string());
+    mut score: ResMut<Score>,
+    mut enemy_killed_event: EventReader<EnemyKilled>
+){    
+    for _event in enemy_killed_event.iter() {
+        score.value += ENEMY_KILL_SCORE;
+    }
+}
+
+pub fn update_kills(
+    mut kills: ResMut<Kills>,
+    mut enemy_killed_event: EventReader<EnemyKilled>
+) {
+    for _event in enemy_killed_event.iter() {
+        kills.value += 1;
     }
 }
 
@@ -28,7 +40,7 @@ pub fn update_high_scores(
     mut high_scores: ResMut<HighScores>
 ) {
     for event in game_over_event_reader.iter() {
-        high_scores.scores.push(("Player".to_string(), event.score));
+        high_scores.scores.push(("Player".to_string(), event.score, event.kills));
     }
 }
 

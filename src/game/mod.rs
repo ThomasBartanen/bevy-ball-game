@@ -31,6 +31,7 @@ impl Plugin for GamePlugin{
         .add_state::<SimulationState>()
 
         .add_event::<GameOver>()
+        .add_event::<EnemyKilled>()
 
         .add_systems(
             OnEnter(AppState::Game), 

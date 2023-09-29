@@ -13,7 +13,7 @@ impl Default for Score {
 
 #[derive(Resource, Debug)]
 pub struct HighScores {
-    pub scores: Vec<(String, u32)>
+    pub scores: Vec<(String, u32, u32)>
 }
 
 impl Default for HighScores {
@@ -21,5 +21,16 @@ impl Default for HighScores {
         HighScores {
             scores: Vec::new()
         }
+    }
+}
+
+#[derive(Resource)]
+pub struct  Kills{
+    pub value: u32,
+}
+
+impl Default for Kills {
+    fn default() -> Kills{
+        Kills { value: 0 }
     }
 }
