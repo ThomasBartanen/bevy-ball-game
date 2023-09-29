@@ -21,6 +21,10 @@ impl Plugin for BombPlugin {
         .init_resource::<BombCooldownTimer>()
 
         .add_systems(
+            OnEnter(AppState::Game), 
+            insert_bombs)
+
+        .add_systems(
             Update, 
             (
                 tick_bomb_timers,
@@ -36,7 +40,9 @@ impl Plugin for BombPlugin {
 
         .add_systems(
             OnExit(AppState::Game), 
-            despawn_bombs
-        );
+            (
+                despawn_bombs,
+                remove_bombs
+        ));
     }
 }

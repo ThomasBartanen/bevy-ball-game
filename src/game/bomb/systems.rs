@@ -117,4 +117,16 @@ pub fn despawn_bombs(
     for explosion_entity in explosion_query.iter() {
         commands.entity(explosion_entity).despawn();
     }
+pub fn insert_bombs(
+    mut commands: Commands
+) {
+    commands.insert_resource(HeldBombCount::default());
+    commands.insert_resource(PlacedBombCount::default());
+}
+
+pub fn remove_bombs(
+    mut commands: Commands
+) {
+    commands.remove_resource::<HeldBombCount>();
+    commands.remove_resource::<PlacedBombCount>();
 }

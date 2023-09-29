@@ -5,7 +5,17 @@ use crate::game::bomb::resources::HeldBombCount;
 
 use super::resources::HeldCurrency;
 
-pub fn replenish_bomb_count(
+pub fn insert_currency(
+    mut commands: Commands
+) {
+    commands.insert_resource(HeldCurrency::default());
+}
+
+pub fn remove_currency(
+    mut commands: Commands
+) {
+    commands.remove_resource::<HeldCurrency>();
+}
     keyboard_input: Res<Input<KeyCode>>,
     mut held_currency: ResMut<HeldCurrency>,
     mut held_bomb_counter: ResMut<HeldBombCount>

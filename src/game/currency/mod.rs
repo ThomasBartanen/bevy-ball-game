@@ -17,6 +17,10 @@ impl Plugin for CurrencyPlugin {
         .init_resource::<HeldCurrency>()
 
         .add_systems(
+            OnEnter(AppState::Game), 
+            insert_currency)
+
+        .add_systems(
             Update, 
             (
                 replenish_bomb_count
@@ -24,11 +28,9 @@ impl Plugin for CurrencyPlugin {
             .run_if(in_state(AppState::Game))
             .run_if(in_state(SimulationState::Running))
         )
-        /*
         .add_systems(
-            OnExit(AppState::Game), 
+            OnExit(AppState::Game),
+            remove_currency
         );
-        */
-        ;
     }
 }
