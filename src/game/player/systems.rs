@@ -1,5 +1,5 @@
 use crate::{
-    constants::*, 
+    constants::*,
     events::GameOver,
     game::bomb::{
         resources::*,
@@ -10,8 +10,6 @@ use crate::{
     game::star::components::Star,
     game::player::components::*
 };
-//use crate::events::*;
-use super::components::*;
 
 use bevy::{
     prelude::*,
