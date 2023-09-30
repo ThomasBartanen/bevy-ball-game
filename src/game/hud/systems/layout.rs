@@ -4,7 +4,8 @@ use crate::{
     game::hud::{
         components::*,
         styles::*
-    },
+    }, constants::{PAUSE_GAME_KEY, BUY_BOMB_KEY, DROP_BOMB_KEY, MAIN_MENU_KEY, CLOSE_APPLICATION_KEY},
+    /*
     constants::{
         BUY_BOMB_KEY,
         DROP_BOMB_KEY,
@@ -12,6 +13,7 @@ use crate::{
         PAUSE_GAME_KEY,
         CLOSE_APPLICATION_KEY
     }
+    */
 };
 
 pub fn spawn_hud(
@@ -146,12 +148,25 @@ pub fn build_hud(
                 })
 
                 .with_children(|parent: &mut ChildBuilder| {
+                    parent.spawn(TextBundle {
+                        text: Text{
+                            sections: vec![
+                                TextSection::new(
+                                    format!("EXIT:\n{:#?}", CLOSE_APPLICATION_KEY),
+                                    get_controls_text_style(&asset_server)
+                                )
+                            ],
+                            alignment: TextAlignment::Center,
+                            ..default()
+                        },
+                        ..default()
+                    });
                     // Menu
                     parent.spawn((TextBundle {
                         text: Text{
                             sections: vec![
                                 TextSection::new(
-                                    "Main Menu: M",
+                                    format!("Menu:\n{:#?}", MAIN_MENU_KEY),
                                     get_controls_text_style(&asset_server)
                                 )
                             ],
@@ -167,7 +182,7 @@ pub fn build_hud(
                         text: Text{
                             sections: vec![
                                 TextSection::new(
-                                    "Drop Bomb: F",
+                                    format!("Drop Bomb:\n{:#?}", DROP_BOMB_KEY),
                                     get_controls_text_style(&asset_server)
                                 )
                             ],
@@ -183,7 +198,7 @@ pub fn build_hud(
                         text: Text{
                             sections: vec![
                                 TextSection::new(
-                                    "Buy Bomb: Q",
+                                    format!("Buy Bomb:\n{:#?}", BUY_BOMB_KEY),
                                     get_controls_text_style(&asset_server)
                                 )
                             ],
@@ -199,7 +214,7 @@ pub fn build_hud(
                         text: Text{
                             sections: vec![
                                 TextSection::new(
-                                    "Pause: \n Enter",
+                                    format!("Pause:\n{:#?}", PAUSE_GAME_KEY),
                                     get_controls_text_style(&asset_server)
                                 )
                             ],
