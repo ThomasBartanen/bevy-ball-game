@@ -56,7 +56,7 @@ pub fn detonate_bomb(
                 },
             ));
 
-            scorch_sprite.transform.scale *= 2.5;
+            scorch_sprite.transform.scale *= 3.5;
             commands.spawn((
                 scorch_sprite,
                 ScorchMark { },
