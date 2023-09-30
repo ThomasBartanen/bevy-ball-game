@@ -27,7 +27,7 @@ pub fn spawn_enemies_at_start(
             ..default()
         };
 
-        let random_point: Vec3 = get_random_screen_point(window);
+        let random_point: Vec3 = get_random_screen_point(window) + Vec3 { x: 0.0, y: 0.0, z: -0.1 };
 
         //enemy_sprite.transform.scale *= 0.5;
 
@@ -159,7 +159,7 @@ pub fn spawn_enemies_over_time(
     if enemy_counter.count >= MAX_ENEMIES { return; }
     if enemy_spawn_timer.timer.finished() {
         let window: &Window = window_query.get_single().unwrap();
-        let random_point: Vec3 = get_random_edge_point(window);
+        let random_point: Vec3 = get_random_screen_point(window) + Vec3 { x: 0.0, y: 0.0, z: -0.1 };
 
         let /*mut*/ enemy_sprite = SpriteBundle {
             transform: Transform::from_translation(random_point.into()),

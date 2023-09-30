@@ -117,8 +117,8 @@ pub fn player_drop_bomb(
         }
         if keyboard_input.pressed(KeyCode::F){
             let /* mut */ bomb_sprite = SpriteBundle {
-                transform: Transform::from_translation(player_transform.translation),
                 texture: asset_server.load("sprites/bomb_001.png"),
+                transform: Transform::from_translation(player_transform.translation + Vec3 { x: 0.0, y: 0.0, z: -0.2 }),
                 ..default()
             };
 

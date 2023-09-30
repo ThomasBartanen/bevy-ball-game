@@ -40,6 +40,7 @@ pub fn detonate_bomb(
             let mut scorch_sprite = SpriteBundle {
                 transform: Transform::from_translation(bomb_transform.translation),
                 texture: asset_server.load("sprites/scorch_mark_003.png"),
+                transform: Transform::from_translation(bomb_transform.translation + Vec3 { x: 0.0, y: 0.0, z: -0.3 }),
                 ..default()
             };
 
@@ -113,8 +114,8 @@ pub fn enemy_hit_explosion(
                 commands.entity(enemy_entity).despawn();
                 commands.spawn((
                     SpriteBundle {
-                        transform: Transform::from_translation(enemy_transform.translation + Vec3 { x: 0.0, y: 0.0, z: -0.1 }),
                         texture: asset_server.load("sprites/blood_pool_002.png"),
+                        transform: Transform::from_translation(enemy_transform.translation + Vec3 { x: 0.0, y: 0.0, z: -0.2 }),
                         ..default()
                     },
                     BloodPool { },
