@@ -16,7 +16,7 @@ pub const CONTROLS_STYLE: Style = {
     style.flex_direction = FlexDirection::Column;
     style.justify_content = JustifyContent::SpaceEvenly;
     style.align_content = AlignContent::SpaceEvenly;
-    style.align_items = AlignItems::Start;
+    style.align_items = AlignItems::Center;
     style.width = Val::Percent(100.0);
     style.height = Val::Percent(100.0);
     style.align_self = AlignSelf::FlexStart;
@@ -80,7 +80,7 @@ pub fn get_controls_text_style(
 ) -> TextStyle {
     TextStyle { 
         font: asset_server.load("fonts/FiraSans-Bold.ttf"), 
-        font_size: 20.0, 
-        color: Color::WHITE 
+        font_size: 25.0, 
+        color: Color::WHITE        
     }
 }
