@@ -1,3 +1,20 @@
+use bevy::prelude::KeyCode;
+
+// === Controls ===
+pub const CLOSE_APPLICATION_KEY: KeyCode = KeyCode::Escape;
+pub const PAUSE_GAME_KEY: KeyCode = KeyCode::Return;
+pub const MAIN_MENU_KEY: KeyCode = KeyCode::M;
+pub const DROP_BOMB_KEY: KeyCode = KeyCode::Space;
+pub const BUY_BOMB_KEY: KeyCode = KeyCode::Q;
+pub const MOVE_LEFT_KEY: KeyCode = KeyCode::A;
+pub const MOVE_RIGHT_KEY: KeyCode = KeyCode::D;
+pub const MOVE_UP_KEY: KeyCode = KeyCode::W;
+pub const MOVE_DOWN_KEY: KeyCode = KeyCode::S;
+pub const ALT_MOVE_LEFT_KEY: KeyCode = KeyCode::Left;
+pub const ALT_MOVE_RIGHT_KEY: KeyCode = KeyCode::Right;
+pub const ALT_MOVE_UP_KEY: KeyCode = KeyCode::Up;
+pub const ALT_MOVE_DOWN_KEY: KeyCode = KeyCode::Down;
+
 // === Player ===
 pub const PLAYER_SPEED: f32 = 500.0;
 pub const PLAYER_SIZE: f32 = 64.0; // player SPRITE size in pixels

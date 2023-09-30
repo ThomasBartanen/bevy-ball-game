@@ -1,7 +1,7 @@
 use crate::{
     events::*, 
     AppState, 
-    game::SimulationState
+    game::SimulationState, constants::{MAIN_MENU_KEY, CLOSE_APPLICATION_KEY}
 };
 
 use bevy::{
@@ -28,7 +28,7 @@ pub fn transition_to_game_state(
     app_state: Res<State<AppState>>,
     mut next_app_state: ResMut<NextState<AppState>>
 ) {
-    if keyboard_input.just_pressed(KeyCode::G) {
+    if keyboard_input.just_pressed(MAIN_MENU_KEY) {
         if app_state.get() != &AppState::Game {
             next_app_state.set(AppState::Game);
             println!("Entered AppState::Game");
@@ -42,7 +42,7 @@ pub fn transition_to_main_menu_state(
     mut next_app_state: ResMut<NextState<AppState>>,
     mut next_sim_state: ResMut<NextState<SimulationState>>
 ) {
-    if keyboard_input.just_pressed(KeyCode::M) {
+    if keyboard_input.just_pressed(MAIN_MENU_KEY) {
         if app_state.get() != &AppState::MainMenu {
             next_app_state.set(AppState::MainMenu);
             next_sim_state.set(SimulationState::Paused);
@@ -55,7 +55,7 @@ pub fn exit_game(
     keyboard_input: Res<Input<KeyCode>>,
     mut app_exit_events: EventWriter<AppExit>
 ) {
-    if keyboard_input.pressed(KeyCode::Escape){
+    if keyboard_input.pressed(CLOSE_APPLICATION_KEY){
         app_exit_events.send(AppExit);
     }
 }

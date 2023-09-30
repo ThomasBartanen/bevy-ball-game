@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::constants::{
     BOMB_COST,
-    CURRENCY_PER_KILL
+    CURRENCY_PER_KILL, BUY_BOMB_KEY
 };
 use crate::events::EnemyKilled;
 use crate::game::bomb::resources::HeldBombCount;
@@ -26,7 +26,7 @@ pub fn purchase_bomb(
     mut held_currency: ResMut<HeldCurrency>,
     mut held_bomb_counter: ResMut<HeldBombCount>
 ) {
-    if keyboard_input.just_pressed(KeyCode::Q) {
+    if keyboard_input.just_pressed(BUY_BOMB_KEY) {
         if held_currency.amount >= BOMB_COST {
             println!("Purchased Bomb. {} currency remaining", held_currency.amount);
             held_bomb_counter.count += 1;

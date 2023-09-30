@@ -53,16 +53,16 @@ pub fn player_movement(
     if let Ok(mut transform) = player_query.get_single_mut(){
         let mut direction: Vec3 = Vec3::ZERO;
 
-        if keyboard_input.pressed(KeyCode::Left) || keyboard_input.pressed(KeyCode::A) {
+        if keyboard_input.pressed(MOVE_LEFT_KEY) || keyboard_input.pressed(ALT_MOVE_LEFT_KEY) {
             direction += Vec3::new(-1.0, 0.0, 0.0);
         }
-        if keyboard_input.pressed(KeyCode::Right) || keyboard_input.pressed(KeyCode::D) {
+        if keyboard_input.pressed(MOVE_RIGHT_KEY) || keyboard_input.pressed(ALT_MOVE_RIGHT_KEY) {
             direction += Vec3::new(1.0, 0.0, 0.0);
         }
-        if keyboard_input.pressed(KeyCode::Up) || keyboard_input.pressed(KeyCode::W) {
+        if keyboard_input.pressed(MOVE_UP_KEY) || keyboard_input.pressed(ALT_MOVE_UP_KEY) {
             direction += Vec3::new(0.0, 1.0, 0.0);
         }
-        if keyboard_input.pressed(KeyCode::Down) || keyboard_input.pressed(KeyCode::S) {
+        if keyboard_input.pressed(MOVE_DOWN_KEY) || keyboard_input.pressed(ALT_MOVE_DOWN_KEY) {
             direction += Vec3::new(0.0, -1.0, 0.0);
         }
 
@@ -116,7 +116,7 @@ pub fn player_drop_bomb(
         if held_bomb_counter.count <= 0 || !cooldown.timer.finished() {
             return;
         }
-        if keyboard_input.pressed(KeyCode::F){
+        if keyboard_input.pressed(DROP_BOMB_KEY){
             let /* mut */ bomb_sprite = SpriteBundle {
                 transform: Transform::from_translation(player_transform.translation + Vec3 { x: 0.0, y: 0.0, z: -0.2 }),
                 texture: asset_server.load(BOMB_SPRITE_PATH),
