@@ -23,7 +23,7 @@ pub fn spawn_enemies_at_start(
 
         let /*mut*/ enemy_sprite = SpriteBundle {
             transform: Transform::from_translation(get_random_screen_point(window).into()),
-            texture: asset_server.load("sprites/ball_red_large.png"),
+            texture: asset_server.load(ENEMY_SPRITE_PATH),
             ..default()
         };
 

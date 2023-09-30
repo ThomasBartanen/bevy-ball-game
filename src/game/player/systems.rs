@@ -1,11 +1,14 @@
 use crate::{
     constants::*, 
     events::GameOver,
-    game::bomb::resources::*,
-    game::enemy::components::*,
-    game::bomb::components::*,
-    game::star::components::*,
-    game::score::resources::*
+    game::bomb::{
+        resources::*,
+        components::Bomb
+    },
+    game::enemy::components::Enemy,
+    game::score::resources::*,
+    game::star::components::Star,
+    game::player::components::*
 };
 //use crate::events::*;
 use super::components::*;
@@ -27,7 +30,7 @@ pub fn spawn_player(
         (
             SpriteBundle {
                 transform: Transform::from_xyz(window.width() / 2.0, window.height() / 2.0, 0.),
-                texture: asset_server.load("sprites/ball_blue_large.png"),
+                texture: asset_server.load(PLAYER_SPRITE_PATH),
                 ..default()
             },
             Player { }
@@ -117,8 +120,8 @@ pub fn player_drop_bomb(
         }
         if keyboard_input.pressed(KeyCode::F){
             let /* mut */ bomb_sprite = SpriteBundle {
-                texture: asset_server.load("sprites/bomb_001.png"),
                 transform: Transform::from_translation(player_transform.translation + Vec3 { x: 0.0, y: 0.0, z: -0.2 }),
+                texture: asset_server.load(BOMB_SPRITE_PATH),
                 ..default()
             };
 

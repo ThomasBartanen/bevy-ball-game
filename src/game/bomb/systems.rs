@@ -1,7 +1,10 @@
 use crate::constants::{
     EXPLOSION_RADIUS,
     ENEMY_SIZE,
-    EXPLOSION_VISIBILITY_TIME
+    EXPLOSION_VISIBILITY_TIME, 
+    BLOOD_SPRITE_PATH, 
+    SCORCH_SPRITE_PATH, 
+    EXPLOSION_SPRITE_PATH
 };
 use crate::events::EnemyKilled;
 use crate::game::enemy::components::Enemy;
@@ -34,13 +37,12 @@ pub fn detonate_bomb(
 
             let mut explosion_sprite = SpriteBundle {
                 transform: Transform::from_translation(bomb_transform.translation),
-                texture: asset_server.load("sprites/explosion_001.png"),
+                texture: asset_server.load(EXPLOSION_SPRITE_PATH),
                 ..default()
             };
             let mut scorch_sprite = SpriteBundle {
-                transform: Transform::from_translation(bomb_transform.translation),
-                texture: asset_server.load("sprites/scorch_mark_003.png"),
                 transform: Transform::from_translation(bomb_transform.translation + Vec3 { x: 0.0, y: 0.0, z: -0.3 }),
+                texture: asset_server.load(SCORCH_SPRITE_PATH),
                 ..default()
             };
 
@@ -114,8 +116,8 @@ pub fn enemy_hit_explosion(
                 commands.entity(enemy_entity).despawn();
                 commands.spawn((
                     SpriteBundle {
-                        texture: asset_server.load("sprites/blood_pool_002.png"),
                         transform: Transform::from_translation(enemy_transform.translation + Vec3 { x: 0.0, y: 0.0, z: -0.2 }),
+                        texture: asset_server.load(BLOOD_SPRITE_PATH),
                         ..default()
                     },
                     BloodPool { },
