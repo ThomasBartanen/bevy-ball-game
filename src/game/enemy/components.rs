@@ -4,3 +4,8 @@ use bevy::prelude::*;
 pub struct Enemy{
     pub direction: Vec2,
 }
+
+#[derive(Component)]
+pub struct WarningCircle{ 
+    pub spawn_time: f32
+}

@@ -42,10 +42,14 @@ pub fn spawn_enemies_at_start(
 
 pub fn despawn_enemies(
     mut commands: Commands,
-    enemy_query: Query<Entity, With<Enemy>>
+    enemy_query: Query<Entity, With<Enemy>>,
+    warning_query: Query<Entity, With<WarningCircle>>
 ) {
     for enemy_entity in enemy_query.iter() {
         commands.entity(enemy_entity).despawn();
+    }
+    for warning_entity in warning_query.iter() {
+        commands.entity(warning_entity).despawn();
     }
 }
 
@@ -151,31 +155,67 @@ pub fn tick_enemy_spawn_timer(
 
 pub fn spawn_enemies_over_time(
     mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    mut enemy_counter: ResMut<EnemyCount>,
+    warning_query: Query<(Entity, &Transform, &WarningCircle), With<WarningCircle>>
+) {
+    for (warning_entity, warning_transform, warning) in warning_query.iter() {
+        if warning.spawn_time <= 0.0 {
+            let random_point: Vec3 = warning_transform.translation;
+
+            let enemy_sprite = SpriteBundle {
+                transform: Transform::from_translation(random_point.into()),
+                texture: asset_server.load(ENEMY_SPRITE_PATH),
+                ..default()
+            };
+
+            commands.spawn((
+                enemy_sprite,
+                Enemy {
+                    direction: Vec2::new(random_point.x, random_point.y).normalize(),
+                },
+            ));
+
+            commands.entity(warning_entity).despawn();
+            enemy_counter.count += 1;
+        }
+    }
+}
+
+pub fn tick_warning_timer(
+    mut warning_query: Query<&mut WarningCircle, With<WarningCircle>>,
+    time: Res<Time>,
+) {
+    for mut warning in &mut warning_query {
+        warning.spawn_time -= time.delta().as_secs_f32();
+    }
+}
+
+pub fn spawn_warning_point(
+    mut commands: Commands,
     window_query: Query<&Window, With<PrimaryWindow>>,
     asset_server: Res<AssetServer>,
     enemy_spawn_timer: Res<EnemySpawnTimer>,
-    mut enemy_counter: ResMut<EnemyCount>
-) {
+    enemy_counter: Res<EnemyCount>,
+) {    
     if enemy_counter.count >= MAX_ENEMIES { return; }
     if enemy_spawn_timer.timer.finished() {
         let window: &Window = window_query.get_single().unwrap();
         let random_point: Vec3 = get_random_screen_point(window) + Vec3 { x: 0.0, y: 0.0, z: -0.1 };
 
-        let /*mut*/ enemy_sprite = SpriteBundle {
+        let mut warning_sprite = SpriteBundle {
             transform: Transform::from_translation(random_point.into()),
-            texture: asset_server.load("sprites/ball_red_large.png"),
+            texture: asset_server.load(WARNING_CIRCLE_SPRITE_PATH),
             ..default()
         };
 
-        //enemy_sprite.transform.scale *= 0.5;
+        warning_sprite.transform.scale *= 1.5;
 
         commands.spawn((
-            enemy_sprite,
-            Enemy {
-                direction: Vec2::new(random_point.x, random_point.y).normalize(),
-            },
+            warning_sprite,
+            WarningCircle { 
+                spawn_time: WARNING_TIME
+            }
         ));
-
-        enemy_counter.count += 1;
     }
 }

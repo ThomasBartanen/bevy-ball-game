@@ -33,6 +33,8 @@ impl Plugin for EnemyPlugin {
                 update_enemy_direction,
                 confine_enemy_movement,
                 tick_enemy_spawn_timer,
+                tick_warning_timer,
+                spawn_warning_point,
                 spawn_enemies_over_time
             )
             .run_if(in_state(AppState::Game))

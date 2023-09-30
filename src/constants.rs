@@ -7,7 +7,8 @@ pub const NUMBER_OF_ENEMIES: usize = 4;
 pub const MAX_ENEMIES: usize = 20;
 pub const ENEMY_SPEED: f32 = 300.0;
 pub const ENEMY_SIZE: f32 = 64.0;
-pub const ENEMY_SPAWN_TIME: f32 = 5.0;
+pub const ENEMY_SPAWN_TIME: f32 = 4.0;
+pub const WARNING_TIME: f32 = 1.0;
 pub const ENEMY_KILL_SCORE: u32 = 2;
 
 // === Stars ===
