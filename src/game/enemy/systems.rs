@@ -23,7 +23,7 @@ pub fn spawn_enemies_at_start(
 
         let /*mut*/ enemy_sprite = SpriteBundle {
             transform: Transform::from_translation(get_random_screen_point(window).into()),
-            texture: asset_server.load(ENEMY_SPRITE_PATH),
+            texture: asset_server.load(get_random_enemy_path()),
             ..default()
         };
 
@@ -161,18 +161,18 @@ pub fn spawn_enemies_over_time(
 ) {
     for (warning_entity, warning_transform, warning) in warning_query.iter() {
         if warning.spawn_time <= 0.0 {
-            let random_point: Vec3 = warning_transform.translation;
+            let spawn_point: Vec3 = warning_transform.translation;
 
             let enemy_sprite = SpriteBundle {
-                transform: Transform::from_translation(random_point.into()),
-                texture: asset_server.load(ENEMY_SPRITE_PATH),
+                transform: Transform::from_translation(spawn_point.into()),
+                texture: asset_server.load(get_random_enemy_path()),
                 ..default()
             };
 
             commands.spawn((
                 enemy_sprite,
                 Enemy {
-                    direction: Vec2::new(random_point.x, random_point.y).normalize(),
+                    direction: Vec2::new(spawn_point.x, spawn_point.y).normalize(),
                 },
             ));
 
@@ -217,5 +217,14 @@ pub fn spawn_warning_point(
                 spawn_time: WARNING_TIME
             }
         ));
+    }
+}
+
+pub fn get_random_enemy_path() -> &'static str {
+    if randomize_choice() {
+        return ENEMY_SPRITE_PATH
+    }
+    else {
+        return ENEMY_SPRITE_PATH_2
     }
 }

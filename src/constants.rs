@@ -46,8 +46,9 @@ pub const EXPLOSION_VISIBILITY_TIME: f32 = 0.2;
 pub const BOMB_COST: f32 = 10.0;
 pub const CURRENCY_PER_KILL: f32 = 5.0;
 
-// === Sprites ===
-pub const ENEMY_SPRITE_PATH: &str = "sprites/ball_red_large.png";
+// === Sprite Paths ===
+pub const ENEMY_SPRITE_PATH: &str = "sprites/spinning_gem_001.png";
+pub const ENEMY_SPRITE_PATH_2: &str = "sprites/spinning_gem_003.png";
 pub const PLAYER_SPRITE_PATH: &str = "sprites/ball_blue_large.png";
 pub const BOMB_SPRITE_PATH: &str = "sprites/bomb_001.png";
 pub const EXPLOSION_SPRITE_PATH: &str = "sprites/explosion_001.png";
