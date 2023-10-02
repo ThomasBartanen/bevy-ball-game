@@ -63,6 +63,15 @@ pub fn enemy_movement(
     }
 }
 
+pub fn spin_enemies(
+    mut enemy_query: Query<&mut Transform, With<Enemy>>,
+    time: Res<Time>
+) {
+    for mut transform in enemy_query.iter_mut() {
+        transform.rotate_z(time.delta_seconds() * 5.0);
+    }
+}
+
 pub fn update_enemy_direction(
     mut enemy_query: Query<(&Transform, &mut Enemy)>,
     window_query: Query<&Window, With<PrimaryWindow>>,
