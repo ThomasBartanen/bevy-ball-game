@@ -7,6 +7,7 @@ pub mod enemy;
 pub mod score;
 pub mod star;
 pub mod systems;
+pub mod sound;
 mod hud;
 
 use hud::HUDPlugin;
@@ -16,6 +17,7 @@ use score::ScorePlugin;
 use star::StarPlugin;
 use bomb::BombPlugin;
 use systems::*;
+use sound::*;
 
 use crate::AppState;
 use crate::events::*;
@@ -44,6 +46,7 @@ impl Plugin for GamePlugin{
             PlayerPlugin,
             ScorePlugin,
             StarPlugin,
+            SoundPlugin,
             BombPlugin
         ))
 

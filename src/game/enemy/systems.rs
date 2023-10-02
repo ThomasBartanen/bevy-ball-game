@@ -1,3 +1,4 @@
+use crate::game::sound::resources::SFXQueue;
 use crate::{
     constants::*,
     extension_functions::*
@@ -8,9 +9,9 @@ use super::resources::*;
 use bevy::{
     prelude::*,
     window::PrimaryWindow,
-    audio::{ Volume, VolumeLevel }
+    //audio::{ Volume, VolumeLevel }
 };
-use rand::prelude::*;
+//use rand::prelude::*;
 
 pub fn spawn_enemies_at_start(
     mut commands: Commands,
@@ -75,14 +76,8 @@ pub fn spin_enemies(
 pub fn update_enemy_direction(
     mut enemy_query: Query<(&Transform, &mut Enemy)>,
     window_query: Query<&Window, With<PrimaryWindow>>,
-    mut commands: Commands,
-    asset_server: Res<AssetServer>
+    mut sfx_resource: ResMut<SFXQueue>
 ) {
-    let playback_settings: PlaybackSettings = PlaybackSettings {
-        volume: Volume::Relative(VolumeLevel::new(0.1)),
-        ..default()
-    };
-
     let window: &Window = window_query.get_single().unwrap();
 
     let half_enemy_size: f32 = ENEMY_SIZE / 2.0 + 0.5;
@@ -105,22 +100,7 @@ pub fn update_enemy_direction(
         }
 
         if direction_changed {
-            //play_randomized_sound(&mut commands, &asset_server);
-            
-            let sound_effect_1: Handle<AudioSource> = asset_server.load("audio/pluck_001.ogg");
-            let sound_effect_2: Handle<AudioSource> = asset_server.load("audio/pluck_002.ogg");
-
-            let sound_effect: Handle<AudioSource> = if random::<f32>() > 0.5 {
-                sound_effect_1
-            } else {
-                sound_effect_2
-            };
-            
-            commands.spawn(AudioBundle {
-                source: sound_effect,
-                settings: playback_settings,
-                ..default()
-            });
+            sfx_resource.bounces_requested += 1;
         }
     }    
 }

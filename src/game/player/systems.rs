@@ -5,7 +5,7 @@ use crate::{
         resources::*,
         components::Bomb
     },
-    game::enemy::components::Enemy,
+    game::{enemy::components::Enemy, sound::resources::SFXQueue},
     game::score::resources::*,
     game::star::components::Star,
     game::player::components::*
@@ -182,13 +182,9 @@ pub fn player_hit_star(
     mut commands: Commands,
     mut player_query: Query<&Transform, With<Player>>,
     star_query: Query<(Entity, &Transform), With<Star>>,
-    asset_server: Res<AssetServer>,
-    mut score: ResMut<Score>
+    mut score: ResMut<Score>,
+    mut sfx_resource: ResMut<SFXQueue>
 ) {
-    let playback_settings: PlaybackSettings = PlaybackSettings {
-        volume: Volume::Relative(VolumeLevel::new(0.1)),
-        ..default()
-    };
 
     if let Ok(player_transform) = player_query.get_single_mut() {
         for (star_entity, star_transform) in star_query.iter() {
@@ -200,13 +196,7 @@ pub fn player_hit_star(
             let star_radius: f32 = STAR_SIZE / 2.0;
 
             if distance < player_radius + star_radius {
-                let sound_effect: Handle<AudioSource> = asset_server.load("audio/laserLarge_000.ogg");
-                
-                commands.spawn(AudioBundle {
-                    source: sound_effect,
-                    settings: playback_settings,
-                    ..default()
-                });
+                sfx_resource.collects_requested += 1;
                 
                 score.value += STAR_SCORE;
 
