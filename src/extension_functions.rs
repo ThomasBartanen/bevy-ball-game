@@ -11,6 +11,10 @@ pub fn get_random_screen_point(
     return Vec3 { x: random_x, y: random_y, z: 0.0 };
 }
 
+pub fn randomize_choice() -> bool {    
+    random::<f32>() >= 0.5
+}
+
 pub fn get_random_edge_point(
     window: &Window
 ) -> Vec3 {
