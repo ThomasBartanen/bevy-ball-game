@@ -80,7 +80,7 @@ pub fn update_enemy_direction(
 ) {
     let window: &Window = window_query.get_single().unwrap();
 
-    let half_enemy_size: f32 = ENEMY_SIZE / 2.0 + 0.5;
+    let half_enemy_size: f32 = ENEMY_SIZE / 2.0 + 0.1;
     let x_min: f32 = 0.0 + half_enemy_size;
     let x_max: f32 = window.width() - half_enemy_size;
     let y_min: f32 = 0.0 + half_enemy_size;
