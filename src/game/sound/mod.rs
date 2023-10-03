@@ -20,7 +20,7 @@ impl Plugin for SoundPlugin{
         .init_resource::<SFXQueue>()
         .add_systems(
             OnEnter(AppState::MainMenu),
-            initialize_music_entity)
+            initialize_music)
         
         .add_systems(
             Update, 

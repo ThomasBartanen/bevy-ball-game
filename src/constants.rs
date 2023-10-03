@@ -58,7 +58,7 @@ pub const STAR_SPRITE_PATH: &str = "sprites/star.png";
 pub const WARNING_CIRCLE_SPRITE_PATH: &str = "sprites/warning_circle_001.png";
 
 // === Sound Paths ===
-pub const MUSIC_PATH: &str = "";
+pub const MUSIC_PATH: &str = "audio/music/grit_nail.ogg";
 pub const MUSIC_PATH_2: &str = "";
 pub const ENEMY_BOUNCE_SOUND_PATH: &str = "audio/pluck_001.ogg";
 pub const ENEMY_BOUNCE_SOUND_PATH_2: &str = "audio/pluck_002.ogg";

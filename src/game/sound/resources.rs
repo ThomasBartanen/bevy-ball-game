@@ -44,7 +44,7 @@ impl Default for MusicValues {
         MusicValues { 
             settings: PlaybackSettings { 
                 mode: PlaybackMode::Loop, 
-                volume: Volume::Relative(VolumeLevel::new(0.05)), 
+                volume: Volume::Relative(VolumeLevel::new(0.15)), 
                 ..default()
             }
         }

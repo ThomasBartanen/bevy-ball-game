@@ -2,7 +2,7 @@ use crate::{constants::{
     ENEMY_BOUNCE_SOUND_PATH, 
     ENEMY_BOUNCE_SOUND_PATH_2, 
     MAX_BOUNCE_SOUNDS, 
-    STAR_COLLECTED_SOUND_PATH
+    STAR_COLLECTED_SOUND_PATH, MUSIC_PATH
 }, extension_functions::randomize_choice};
 
 use super::{
@@ -10,7 +10,7 @@ use super::{
     components::*
 };
 
-use rand::prelude::*;
+//use rand::prelude::*;
 use bevy::prelude::*;
 
 pub fn play_queued_sfx(
@@ -82,10 +82,20 @@ fn set_music_volume(
     }
 }
 
-pub fn initialize_music_entity(
-    mut commands: Commands
+pub fn initialize_music(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    music_resource: ResMut<MusicValues>,
+    music_source_query: Query<Entity, With<MusicSource>>
 ) {
+    if !music_source_query.is_empty() { return; }
     commands.spawn(MusicSource{});
+    
+    commands.spawn(AudioBundle {
+        source: asset_server.load(MUSIC_PATH),
+        settings: music_resource.settings,
+        ..default()
+    });
 }
 
 pub fn despawn_music_entity(
