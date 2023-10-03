@@ -17,6 +17,7 @@ use bevy::{
 
 fn main() {
     App::new()
+    .insert_resource(ClearColor(Color::rgba(0.5, 0.5, 0.9, 0.1)))
     .add_plugins(DefaultPlugins.set(WindowPlugin {
         primary_window: Some(Window {
             resizable: false,
