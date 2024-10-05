@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 #[derive(Resource)]
 pub struct HeldCurrency {
-    pub amount: f32
+    pub amount: f32,
 }
 
 impl Default for HeldCurrency {

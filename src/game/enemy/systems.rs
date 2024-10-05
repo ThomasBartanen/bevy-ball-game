@@ -1,11 +1,10 @@
-use crate::game::sound::resources::SFXQueue;
-use crate::{
-    constants::*,
-    extension_functions::*
-};
 use super::components::*;
 use super::resources::*;
+use crate::game::sound::resources::SFXQueue;
+use crate::game::EnemyKilled;
+use crate::{constants::*, extension_functions::*};
 
+use bevy::ecs::entity::Entities;
 use bevy::{
     prelude::*,
     window::PrimaryWindow,
@@ -21,14 +20,18 @@ pub fn spawn_enemies_at_start(
     let window: &Window = window_query.get_single().unwrap();
 
     for _ in 0..NUMBER_OF_ENEMIES {
-
         let /*mut*/ enemy_sprite = SpriteBundle {
-            transform: Transform::from_translation(get_random_screen_point(window).into()),
+            transform: Transform::from_translation(get_random_screen_point(window)),
             texture: asset_server.load(get_random_enemy_path()),
             ..default()
         };
 
-        let random_point: Vec3 = get_random_screen_point(window) + Vec3 { x: 0.0, y: 0.0, z: -0.1 };
+        let random_point: Vec3 = get_random_screen_point(window)
+            + Vec3 {
+                x: 0.0,
+                y: 0.0,
+                z: -0.1,
+            };
 
         //enemy_sprite.transform.scale *= 0.5;
 
@@ -41,10 +44,28 @@ pub fn spawn_enemies_at_start(
     }
 }
 
+pub fn kill_enemies(
+    mut commands: Commands,
+    mut enemy_counter: ResMut<EnemyCount>,
+    mut enemy_killed_event: EventReader<EnemyKilled>,
+) {
+    for event in enemy_killed_event.read() {
+        match commands.get_entity(event.entity) {
+            Some(_) => {
+                commands.entity(event.entity).despawn();
+                if enemy_counter.count > 0 {
+                    enemy_counter.count -= 1;
+                }
+            }
+            None => return,
+        }
+    }
+}
+
 pub fn despawn_enemies(
     mut commands: Commands,
     enemy_query: Query<Entity, With<Enemy>>,
-    warning_query: Query<Entity, With<WarningCircle>>
+    warning_query: Query<Entity, With<WarningCircle>>,
 ) {
     for enemy_entity in enemy_query.iter() {
         commands.entity(enemy_entity).despawn();
@@ -54,20 +75,14 @@ pub fn despawn_enemies(
     }
 }
 
-pub fn enemy_movement(
-    mut enemy_query: Query<(&mut Transform, &Enemy)>,
-    time: Res<Time>
-) {
-    for(mut transform, enemy) in enemy_query.iter_mut() {
+pub fn enemy_movement(mut enemy_query: Query<(&mut Transform, &Enemy)>, time: Res<Time>) {
+    for (mut transform, enemy) in enemy_query.iter_mut() {
         let direction: Vec3 = Vec3::new(enemy.direction.x, enemy.direction.y, 0.0);
         transform.translation += direction * ENEMY_SPEED * time.delta_seconds();
     }
 }
 
-pub fn spin_enemies(
-    mut enemy_query: Query<&mut Transform, With<Enemy>>,
-    time: Res<Time>
-) {
+pub fn spin_enemies(mut enemy_query: Query<&mut Transform, With<Enemy>>, time: Res<Time>) {
     for mut transform in enemy_query.iter_mut() {
         transform.rotate_z(time.delta_seconds() * 5.0);
     }
@@ -76,7 +91,7 @@ pub fn spin_enemies(
 pub fn update_enemy_direction(
     mut enemy_query: Query<(&Transform, &mut Enemy)>,
     window_query: Query<&Window, With<PrimaryWindow>>,
-    mut sfx_resource: ResMut<SFXQueue>
+    mut sfx_resource: ResMut<SFXQueue>,
 ) {
     let window: &Window = window_query.get_single().unwrap();
 
@@ -86,7 +101,7 @@ pub fn update_enemy_direction(
     let y_min: f32 = 0.0 + half_enemy_size;
     let y_max: f32 = window.height() - half_enemy_size;
 
-    for(transform, mut enemy) in enemy_query.iter_mut(){
+    for (transform, mut enemy) in enemy_query.iter_mut() {
         let mut direction_changed: bool = false;
 
         let translation: Vec3 = transform.translation;
@@ -102,12 +117,12 @@ pub fn update_enemy_direction(
         if direction_changed {
             sfx_resource.bounces_requested += 1;
         }
-    }    
+    }
 }
 
 pub fn confine_enemy_movement(
     mut enemy_query: Query<&mut Transform, With<Enemy>>,
-    window_query: Query<&Window, With<PrimaryWindow>>
+    window_query: Query<&Window, With<PrimaryWindow>>,
 ) {
     let window = window_query.get_single().unwrap();
     let half_enemy_size: f32 = ENEMY_SIZE / 2.0;
@@ -116,29 +131,24 @@ pub fn confine_enemy_movement(
     let y_min: f32 = 0.0 + half_enemy_size;
     let y_max: f32 = window.height() - half_enemy_size;
 
-    for mut transform in enemy_query.iter_mut(){
+    for mut transform in enemy_query.iter_mut() {
         let mut translation: Vec3 = transform.translation;
-        
+
         if translation.x < x_min {
             translation.x = x_min;
-        }
-        else if translation.x > x_max {
+        } else if translation.x > x_max {
             translation.x = x_max;
         }
         if translation.y < y_min {
             translation.y = y_min;
-        }
-        else if translation.y > y_max {
+        } else if translation.y > y_max {
             translation.y = y_max;
         }
         transform.translation = translation;
     }
 }
 
-pub fn tick_enemy_spawn_timer(
-    mut enemy_spawn_timer: ResMut<EnemySpawnTimer>, 
-    time: Res<Time>
-) {
+pub fn tick_enemy_spawn_timer(mut enemy_spawn_timer: ResMut<EnemySpawnTimer>, time: Res<Time>) {
     enemy_spawn_timer.timer.tick(time.delta());
 }
 
@@ -146,14 +156,14 @@ pub fn spawn_enemies_over_time(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     mut enemy_counter: ResMut<EnemyCount>,
-    warning_query: Query<(Entity, &Transform, &WarningCircle), With<WarningCircle>>
+    warning_query: Query<(Entity, &Transform, &WarningCircle), With<WarningCircle>>,
 ) {
     for (warning_entity, warning_transform, warning) in warning_query.iter() {
         if warning.spawn_time <= 0.0 {
             let spawn_point: Vec3 = warning_transform.translation;
 
             let enemy_sprite = SpriteBundle {
-                transform: Transform::from_translation(spawn_point.into()),
+                transform: Transform::from_translation(spawn_point),
                 texture: asset_server.load(get_random_enemy_path()),
                 ..default()
             };
@@ -186,14 +196,21 @@ pub fn spawn_warning_point(
     asset_server: Res<AssetServer>,
     enemy_spawn_timer: Res<EnemySpawnTimer>,
     enemy_counter: Res<EnemyCount>,
-) {    
-    if enemy_counter.count >= MAX_ENEMIES { return; }
+) {
+    if enemy_counter.count >= MAX_ENEMIES {
+        return;
+    }
     if enemy_spawn_timer.timer.finished() {
         let window: &Window = window_query.get_single().unwrap();
-        let random_point: Vec3 = get_random_screen_point(window) + Vec3 { x: 0.0, y: 0.0, z: -0.1 };
+        let random_point: Vec3 = get_random_screen_point(window)
+            + Vec3 {
+                x: 0.0,
+                y: 0.0,
+                z: -0.1,
+            };
 
         let mut warning_sprite = SpriteBundle {
-            transform: Transform::from_translation(random_point.into()),
+            transform: Transform::from_translation(random_point),
             texture: asset_server.load(WARNING_CIRCLE_SPRITE_PATH),
             ..default()
         };
@@ -202,18 +219,17 @@ pub fn spawn_warning_point(
 
         commands.spawn((
             warning_sprite,
-            WarningCircle { 
-                spawn_time: WARNING_TIME
-            }
+            WarningCircle {
+                spawn_time: WARNING_TIME,
+            },
         ));
     }
 }
 
 pub fn get_random_enemy_path() -> &'static str {
     if randomize_choice() {
-        return ENEMY_SPRITE_PATH
-    }
-    else {
-        return ENEMY_SPRITE_PATH_2
+        ENEMY_SPRITE_PATH
+    } else {
+        ENEMY_SPRITE_PATH_2
     }
 }

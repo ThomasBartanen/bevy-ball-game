@@ -1,19 +1,13 @@
 use bevy::prelude::*;
 
-#[derive(Resource)]
+#[derive(Resource, Default)]
 pub struct PlacedBombCount {
-    pub count: usize
-}
-
-impl Default for PlacedBombCount {
-    fn default() -> PlacedBombCount {
-        PlacedBombCount { count: 0 }
-    }
+    pub count: usize,
 }
 
 #[derive(Resource, Deref)]
 pub struct HeldBombCount {
-    pub count: usize
+    pub count: usize,
 }
 
 impl Default for HeldBombCount {
@@ -22,15 +16,7 @@ impl Default for HeldBombCount {
     }
 }
 
-#[derive(Resource, Deref)]
+#[derive(Resource, Deref, Default)]
 pub struct BombCooldownTimer {
-    pub timer: Timer
-}
-
-impl Default for BombCooldownTimer {
-    fn default() -> BombCooldownTimer {
-        BombCooldownTimer {
-            timer: Timer::default()
-        }
-    }
+    pub timer: Timer,
 }

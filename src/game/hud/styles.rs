@@ -58,29 +58,25 @@ pub const IMAGE_STYLE: Style = {
     style.width = Val::Px(64.0);
     style.height = Val::Px(64.0);
     style.margin = UiRect::new(
-        Val::Px(8.0), 
-        Val::Px(8.0), 
-        Val::Px(8.0), 
+        Val::Px(8.0),
+        Val::Px(8.0),
+        Val::Px(8.0),
         Val::Px(8.0));
     style
 };
 */
-pub fn get_data_text_style(
-    asset_server: &Res<AssetServer>
-) -> TextStyle {
-    TextStyle { 
-        font: asset_server.load("fonts/FiraSans-Bold.ttf"), 
-        font_size: 28.0, 
-        color: Color::WHITE 
+pub fn get_data_text_style(asset_server: &Res<AssetServer>) -> TextStyle {
+    TextStyle {
+        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+        font_size: 28.0,
+        color: Color::WHITE,
     }
 }
 
-pub fn get_controls_text_style(
-    asset_server: &Res<AssetServer>
-) -> TextStyle {
-    TextStyle { 
-        font: asset_server.load("fonts/FiraSans-Bold.ttf"), 
-        font_size: 25.0, 
-        color: Color::WHITE        
+pub fn get_controls_text_style(asset_server: &Res<AssetServer>) -> TextStyle {
+    TextStyle {
+        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+        font_size: 25.0,
+        color: Color::WHITE,
     }
 }

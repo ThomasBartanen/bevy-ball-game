@@ -30,7 +30,5 @@ pub struct DropBombControl {}
 #[derive(Component)]
 pub struct BuyBombControl {}
 
-
 #[derive(Component)]
 pub struct PauseGameControl {}
-

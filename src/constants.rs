@@ -2,18 +2,18 @@ use bevy::prelude::KeyCode;
 
 // === Controls ===
 pub const CLOSE_APPLICATION_KEY: KeyCode = KeyCode::Escape;
-pub const PAUSE_GAME_KEY: KeyCode = KeyCode::Return;
-pub const MAIN_MENU_KEY: KeyCode = KeyCode::M;
+pub const PAUSE_GAME_KEY: KeyCode = KeyCode::Enter;
+pub const MAIN_MENU_KEY: KeyCode = KeyCode::KeyM;
 pub const DROP_BOMB_KEY: KeyCode = KeyCode::Space;
-pub const BUY_BOMB_KEY: KeyCode = KeyCode::Q;
-pub const MOVE_LEFT_KEY: KeyCode = KeyCode::A;
-pub const MOVE_RIGHT_KEY: KeyCode = KeyCode::D;
-pub const MOVE_UP_KEY: KeyCode = KeyCode::W;
-pub const MOVE_DOWN_KEY: KeyCode = KeyCode::S;
-pub const ALT_MOVE_LEFT_KEY: KeyCode = KeyCode::Left;
-pub const ALT_MOVE_RIGHT_KEY: KeyCode = KeyCode::Right;
-pub const ALT_MOVE_UP_KEY: KeyCode = KeyCode::Up;
-pub const ALT_MOVE_DOWN_KEY: KeyCode = KeyCode::Down;
+pub const BUY_BOMB_KEY: KeyCode = KeyCode::KeyQ;
+pub const MOVE_LEFT_KEY: KeyCode = KeyCode::KeyA;
+pub const MOVE_RIGHT_KEY: KeyCode = KeyCode::KeyD;
+pub const MOVE_UP_KEY: KeyCode = KeyCode::KeyW;
+pub const MOVE_DOWN_KEY: KeyCode = KeyCode::KeyS;
+pub const ALT_MOVE_LEFT_KEY: KeyCode = KeyCode::ArrowLeft;
+pub const ALT_MOVE_RIGHT_KEY: KeyCode = KeyCode::ArrowRight;
+pub const ALT_MOVE_UP_KEY: KeyCode = KeyCode::ArrowUp;
+pub const ALT_MOVE_DOWN_KEY: KeyCode = KeyCode::ArrowDown;
 
 // === Player ===
 pub const PLAYER_SPEED: f32 = 500.0;
@@ -35,11 +35,12 @@ pub const STAR_SCORE: u32 = 1;
 pub const STAR_SPAWN_TIME: f32 = 1.0;
 
 // === Bombs ===
-pub const BOMB_DET_TIME: f32 = 0.75;
+pub const BOMB_DET_TIME: f32 = 0.6;
 pub const BOMB_COOLDOWN_TIME: f32 = 1.2;
 
 // === Explosions ===
-pub const EXPLOSION_RADIUS: f32 = 64.0;
+pub const EXPLOSION_SPRITE_SIZE: f32 = 3.0;
+pub const EXPLOSION_SIZE: f32 = 128.0;
 pub const EXPLOSION_VISIBILITY_TIME: f32 = 0.2;
 
 // === Currency ===
